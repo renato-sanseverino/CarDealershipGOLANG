@@ -14,6 +14,14 @@ CREATE TABLE public.cars_for_sale (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE public.cars_for_service (
+	id SERIAL,
+	customer_id int4 NOT NULL,
+	car_details varchar(160) NOT NULL,
+	mechanic varchar(160) NOT NULL,
+	PRIMARY KEY (id)
+);
+
 CREATE TABLE public.customer (
 	id SERIAL,
 	first_name varchar(50) NOT NULL,
@@ -26,7 +34,7 @@ CREATE TABLE public.customer (
 
 CREATE TABLE public.salesperson (
 	id SERIAL,
-	first_name varchar(50) NULL,
+	first_name varchar(50) NOT NULL,
 	last_name varchar(50) NULL,
 	commission numeric(4, 2) NOT NULL,
 	PRIMARY KEY (id)
