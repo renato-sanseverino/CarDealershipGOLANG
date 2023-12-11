@@ -15,7 +15,7 @@ func GetSalespeople(c *gin.Context) {
 
 	salesPeople, err := client.Salesperson.FindMany().Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -38,7 +38,7 @@ func PostSalesperson(c *gin.Context) {
 		db.Salesperson.LastName.SetOptional(payload.LastName),
 	).Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -70,7 +70,7 @@ func PatchSalesperson(c *gin.Context) {
 		db.Salesperson.LastName.SetOptional(payload.LastName),
 	).Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -92,7 +92,7 @@ func DeleteSalesperson(c *gin.Context) {
 		db.Salesperson.ID.Equals(id),
 	).Delete().Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 

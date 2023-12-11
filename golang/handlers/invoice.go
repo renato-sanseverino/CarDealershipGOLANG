@@ -16,7 +16,7 @@ func GetInvoices(c *gin.Context) {
 
 	invoices, err := client.Invoice.FindMany().Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -40,7 +40,7 @@ func PostInvoice(c *gin.Context) {
 		db.Invoice.CarID.SetIfPresent(&payload.CarID),
 	).Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -73,7 +73,7 @@ func PatchInvoice(c *gin.Context) {
 		db.Invoice.CarID.SetIfPresent(&payload.CarID),
 	).Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -95,7 +95,7 @@ func DeleteInvoice(c *gin.Context) {
 		db.Invoice.ID.Equals(id),
 	).Delete().Exec(c)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
