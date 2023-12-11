@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/signintech/gopdf"
 )
 
 func GetInvoices(c *gin.Context) {
@@ -100,4 +101,68 @@ func DeleteInvoice(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "Invoice deleted successfully", "id": deletedInvoice.ID})
+}
+
+func GerarPedido(c *gin.Context) {
+	file := utils.Invoice{}
+	file.Currency = "BRL";
+
+	var output = "invoice.pdf"
+
+	pdf := gopdf.GoPdf{}
+	pdf.Start(gopdf.Config{
+		PageSize: *gopdf.PageSizeA4,
+	})
+	pdf.SetMargins(40, 40, 40, 40)
+	pdf.AddPage()
+
+    /*
+	err := pdf.AddTTFFontData("Inter", interFont)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = pdf.AddTTFFontData("Inter-Bold", interBoldFont)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	utils.WriteLogo(&pdf, file.Logo, file.From)
+	utils.WriteTitle(&pdf, file.Title, file.Id, file.Date)
+	utils.WriteBillTo(&pdf, file.To)
+	utils.WriteHeaderRow(&pdf)
+	subtotal := 0.0
+	for i := range file.Items {
+		q := 1
+		if len(file.Quantities) > i {
+			q = file.Quantities[i]
+		}
+
+		r := 0.0
+		if len(file.Rates) > i {
+			r = file.Rates[i]
+		}
+
+		utils.WriteRow(&pdf, file.Items[i], q, r)
+		subtotal += float64(q) * r
+	}
+	if file.Note != "" {
+		utils.WriteNotes(&pdf, file.Note)
+	}
+	utils.WriteTotals(&pdf, subtotal, subtotal*file.Tax, subtotal*file.Discount)
+	if file.Due != "" {
+		utils.WriteDueDate(&pdf, file.Due)
+	}
+	utils.WriteFooter(&pdf, file.Id)
+	*/
+
+	err := pdf.WritePdf(output)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Pedido numero: "})
 }
